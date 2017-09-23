@@ -6,7 +6,7 @@ import (
 )
 
 func Test_Set(t *testing.T) {
-    logger.Warn("=> Testing set...")
+	logger.Warn("=> Testing set...")
 	set1 := NewSet(1, "2", "3")
 	set1.Add(1)
 	logger.Info("%v", set1.Contains(1))
