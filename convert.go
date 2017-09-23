@@ -152,6 +152,7 @@ func ToFloat64(v interface{}) float64 {
 	}
 }
 
+// interface => map[string]interface{}
 func ToJSON(v interface{}) map[string]interface{} {
 	m := make(map[string]interface{})
 	err := Format(v, &m)
@@ -161,7 +162,7 @@ func ToJSON(v interface{}) map[string]interface{} {
 	return m
 }
 
-// in format out
+// map[string]interface{} => struct{}
 // eg: Format(map[string]interface{...}, &Struct{})
 func Format(in, out interface{}) error {
 	var err error

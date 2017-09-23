@@ -1,9 +1,9 @@
 package types
 
 import (
-    "time"
+	"time"
 )
 
 func Now() time.Time {
-    return time.Now()
+	return time.Now()
 }

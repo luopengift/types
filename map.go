@@ -31,6 +31,7 @@ func (m *Map) Keys() []string {
 	}
 	return keyList
 }
+
 func (m *Map) String(key string) string {
 	value, ok := m.Get(key)
 	if !ok {
@@ -42,6 +43,10 @@ func (m *Map) String(key string) string {
 type SortMap struct {
 	keys   []string
 	values List
+}
+
+func NewSortMap() *SortMap {
+	return new(SortMap)
 }
 
 func (sm *SortMap) String() string {

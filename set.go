@@ -35,6 +35,7 @@ func (self *Set) Remove(v interface{}) *Set {
 	self.mux.Unlock()
 	return self
 }
+
 // 清空所有元素
 func (self *Set) Clear() error {
 	self.mux.Lock()
@@ -65,7 +66,7 @@ func (self *Set) Len() int {
 }
 
 // 是否和其他set一致
-func (self *Set) Same(o Setter) bool {
+func (self *Set) Same(o *Set) bool {
 	if self.Len() != o.Len() {
 		return false
 	}
@@ -78,15 +79,16 @@ func (self *Set) Same(o Setter) bool {
 }
 
 // 并集
-func (self *Set) Union(o Setter) *Set {
+func (self *Set) Union(o *Set) *Set {
 	union := NewSet(self.Elements()...) //新创建一个集合,以免影响原集合
 	for _, v := range o.Elements() {
 		union.Add(v)
 	}
 	return union
 }
+
 // 交集
-func (self *Set) Inter(o Setter) *Set {
+func (self *Set) Inter(o *Set) *Set {
 	inter := NewSet()
 	for _, v := range self.Elements() {
 		if o.Contains(v) {
@@ -95,8 +97,9 @@ func (self *Set) Inter(o Setter) *Set {
 	}
 	return inter
 }
+
 // 差集
-func (self *Set) Diff(o Setter) *Set {
+func (self *Set) Diff(o *Set) *Set {
 	diff := NewSet()
 	for _, v := range self.Elements() {
 		if !o.Contains(v) {

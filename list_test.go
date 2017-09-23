@@ -1,16 +1,14 @@
 package types
 
 import (
-	"github.com/luopengift/golibs/logger"
 	"testing"
 )
 
-func Test_list(t *testing.T) {
-	logger.Warn("=> Test list")
+func Test_List(t *testing.T) {
+	log.Debug("[" + t.Name() + "]")
 	list := NewList()
-	logger.Info("%v", list.Len())
-	list.Append(1, 2, 3)
-	logger.Info("%v %v", list, list.Len())
-	logger.Info("1 contains %v", list.Contains(1))
-	logger.Info("4 contains %v", list.Contains(4))
+	list.Append(1, 2, 3, "4")
+	log.Info("  %v %v", list, list.Len())
+	log.Info("  1 contains %v", list.Contains(1))
+	log.Info("  4 contains %v", list.Contains(4))
 }
