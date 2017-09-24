@@ -45,5 +45,6 @@ func (l *List) Count(v interface{}) int {
 }
 
 func (l *List) String() string {
-	return ToString(*l)
+	s, _ := ToString(*l)
+    return s
 }

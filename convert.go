@@ -2,8 +2,8 @@ package types
 
 import (
 	"encoding/json"
-	"github.com/luopengift/golibs/logger"
-	"math"
+	"fmt"
+    "math"
 	"reflect"
 	"strconv"
 	"unsafe"
@@ -14,16 +14,6 @@ import (
 // 效率是string([]byte{})的百倍以上，且转换量越大效率优势越明显。
 func BytesToString(b []byte) string {
 	return *(*string)(unsafe.Pointer(&b))
-}
-
-// string => bool , if fail return false
-func StringToBoolean(s string) bool {
-	b, err := strconv.ParseBool(s)
-	if err != nil {
-		logger.Warn("[%#v] string to bool error, return false => %v", s, err)
-		return false
-	}
-	return b
 }
 
 // string => []byte
@@ -37,129 +27,114 @@ func StringToBytes(s string) []byte {
 	return *(*[]byte)(unsafe.Pointer(&h))
 }
 
+// string => bool , if fail return false
+func StringToBoolean(s string) (bool, error) {
+	return strconv.ParseBool(s)
+}
+
 //string => int, if fail return 0
-func StringToInt(s string) int {
-	i, err := strconv.Atoi(s)
-	if err != nil {
-		logger.Warn("[%#v] string to int error, return 0 => %v", s, err)
-		return 0
-	}
-	return i
+func StringToInt(s string) (int, error) {
+	return strconv.Atoi(s)
 }
 
 //string => int64, if fail return 0
-func StringToInt64(s string) int64 {
-	i, err := strconv.ParseInt(s, 10, 64)
-	if err != nil {
-		logger.Warn("[%#v] string to int64 error, return 0 => %v", s, err)
-		return 0
-	}
-	return i
+func StringToInt64(s string) (int64, error) {
+	return strconv.ParseInt(s, 10, 64)
 }
 
 // string => float64, if fail return 0
-func StringToFloat64(s string) float64 {
-	i, err := strconv.ParseFloat(s, 64)
-	if err != nil {
-		logger.Warn("[%#v] string to float64 error, return 0 => %v", s, err)
-		return 0
-	}
-	return i
+func StringToFloat64(s string) (float64, error) {
+	return strconv.ParseFloat(s, 64)
+}
+
+func StringToJSON(s string) (map[string]interface{}, error) {
+    v := map[string]interface{}{}
+    err := json.Unmarshal(StringToBytes(s), &v)
+    return v, err
+}
+
+func JSONToBytes (m map[string]interface{}) ([]byte, error) {
+    return json.Marshal(m)
 }
 
 // interface => []byte
-func ToBytes(v interface{}) []byte {
+func ToBytes(v interface{}) ([]byte, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
-		return StringToBytes(value.String())
+		return StringToBytes(value.String()), nil
 	case []byte:
-		return value.Bytes()
+		return value.Bytes(), nil
 	default:
-		b, err := json.Marshal(v)
-		if err != nil {
-			logger.Warn("[%#v] ToBytes Marshal error, return []byte{} => %v", v, err)
-			return []byte{}
-		}
-		return b
+		return json.Marshal(v)
 	}
 }
 
 // interface => string
-func ToString(v interface{}) string {
+func ToString(v interface{}) (string, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
-		return value.String()
+		return value.String(), nil
 	case []byte:
-		return BytesToString(value.Bytes())
+		return BytesToString(value.Bytes()), nil
 	default:
 		b, err := json.Marshal(v)
-		if err != nil {
-			logger.Warn("[%#v] ToString Marshal error, return \"\" => %v", v, err)
-			return ""
-		}
-		return string(b)
+		return string(b), err
 	}
 }
 
 // interface => int
-func ToInt(v interface{}) int {
+func ToInt(v interface{}) (int, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
 		return StringToInt(value.String())
 	case int, int8, int16, int32, int64:
-		return int(value.Int())
+		return int(value.Int()), nil
 	case uint, uint8, uint16, uint32, uint64:
-		return int(value.Uint())
+		return int(value.Uint()), nil
 	case float32, float64:
-		return int(value.Float())
+		return int(value.Float()), nil
 	default:
-		logger.Warn("[%#v] ToInt unknow type, return 0", v)
-		return 0
+		return 0, fmt.Errorf("ToInt Unknow type:%#v", v)
 	}
 }
 
 // interface => int64
-func ToInt64(v interface{}) int64 {
+func ToInt64(v interface{}) (int64, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
 		return StringToInt64(value.String())
 	case int, int8, int16, int32, int64:
-		return value.Int()
+		return value.Int(), nil
 	case uint, uint8, uint16, uint32, uint64:
-		return int64(value.Uint())
+		return int64(value.Uint()), nil
 	case float32, float64:
-		return int64(value.Float())
+		return int64(value.Float()), nil
 	default:
-		logger.Warn("[%#v] ToInt64 unknow type", v)
-		return 0
+		return 0, fmt.Errorf("ToInt64 unknow type:%#v", v)
 	}
 }
 
 // interface => float64
-func ToFloat64(v interface{}) float64 {
+func ToFloat64(v interface{}) (float64, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
 		return StringToFloat64(value.String())
 	case int, int8, int16, int32, int64:
-		return float64(value.Int())
+		return float64(value.Int()), nil
 	case uint, uint8, uint16, uint32, uint64:
-		return float64(value.Uint())
+		return float64(value.Uint()), nil
 	case float32, float64:
-		return value.Float()
+		return value.Float(), nil
 	default:
-		logger.Warn("[%#v] ToFloat64  unknow type", v)
-		return 0
+		return 0, fmt.Errorf("ToFloat64 unknow type:%#v", v)
 	}
 }
 
 // interface => map[string]interface{}
-func ToJSON(v interface{}) map[string]interface{} {
+func ToJSON(v interface{}) (map[string]interface{}, error) {
 	m := make(map[string]interface{})
 	err := Format(v, &m)
-	if err != nil {
-		logger.Warn("[%#v] ToJSON format error => %v", v, err)
-	}
-	return m
+	return m, err
 }
 
 // map[string]interface{} => struct{}

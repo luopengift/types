@@ -37,7 +37,11 @@ func (m *Map) String(key string) string {
 	if !ok {
 		return ""
 	}
-	return ToString(value)
+	s, err := ToString(value)
+    if err != nil {
+        println(err)
+    }
+    return s
 }
 
 type SortMap struct {
@@ -54,7 +58,8 @@ func (sm *SortMap) String() string {
 	for index, key := range sm.keys {
 		m[key] = sm.values[index]
 	}
-	return ToString(m)
+	s, _ := ToString(m)
+    return s
 }
 
 func (sm *SortMap) Index(index int) (string, interface{}) {
