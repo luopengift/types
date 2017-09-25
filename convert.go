@@ -3,7 +3,7 @@ package types
 import (
 	"encoding/json"
 	"fmt"
-    "math"
+	"math"
 	"reflect"
 	"strconv"
 	"unsafe"
@@ -48,13 +48,13 @@ func StringToFloat64(s string) (float64, error) {
 }
 
 func StringToJSON(s string) (map[string]interface{}, error) {
-    v := map[string]interface{}{}
-    err := json.Unmarshal(StringToBytes(s), &v)
-    return v, err
+	v := map[string]interface{}{}
+	err := json.Unmarshal(StringToBytes(s), &v)
+	return v, err
 }
 
-func JSONToBytes (m map[string]interface{}) ([]byte, error) {
-    return json.Marshal(m)
+func JSONToBytes(m map[string]interface{}) ([]byte, error) {
+	return json.Marshal(m)
 }
 
 // interface => []byte
