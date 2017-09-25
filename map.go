@@ -6,7 +6,7 @@ type HashMap Map
 
 // Implement Configer interface.
 func (hm HashMap) Parse(v interface{}) error {
-    return Format(hm, v)
+	return Format(hm, v)
 }
 
 type SortMap struct {
@@ -30,4 +30,3 @@ func (sm *SortMap) String() string {
 func (sm *SortMap) Index(index int) (string, interface{}) {
 	return sm.keys[index], sm.values[index]
 }
-

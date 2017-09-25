@@ -22,4 +22,3 @@ func (l *List) String() string {
 	s, _ := ToString(*l)
 	return s
 }
-
