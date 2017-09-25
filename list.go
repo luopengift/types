@@ -18,7 +18,7 @@ func (l List) Count(v interface{}) int {
 	return cnt
 }
 
-func (l *List) String() string {
-	s, _ := ToString(*l)
+func (l List) String() string {
+	s, _ := ToString(l)
 	return s
 }

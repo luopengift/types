@@ -19,7 +19,7 @@ func NewSortMap() *SortMap {
 }
 
 func (sm *SortMap) String() string {
-	m := map[string]interface{}{}
+	m := Map{}
 	for index, key := range sm.keys {
 		m[key] = sm.values[index]
 	}

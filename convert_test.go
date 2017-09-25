@@ -59,21 +59,21 @@ func Test_ToString(t *testing.T) {
 	log.Info("  %#T => %#v, %v", T_List, i, err)
 }
 
-func Test_ToJSON(t *testing.T) {
+func Test_ToMap(t *testing.T) {
 	log.Debug("[" + t.Name() + "]")
-	i, err := ToJSON(T_IntNum)
+	i, err := ToMap(T_IntNum)
 	log.Info("  %#T => %#v, %v", T_IntNum, i, err)
-	i, err = ToJSON(T_Int64Num)
+	i, err = ToMap(T_Int64Num)
 	log.Info("  %#T => %#v, %v", T_Int64Num, i, err)
-	i, err = ToJSON(T_Float64Num)
+	i, err = ToMap(T_Float64Num)
 	log.Info("  %#T => %#v, %v", T_Float64Num, i, err)
-	i, err = ToJSON(T_NumString)
+	i, err = ToMap(T_NumString)
 	log.Info("  %#T => %#v, %v", T_NumString, i, err)
-	i, err = ToJSON(T_Byte)
+	i, err = ToMap(T_Byte)
 	log.Info("  %#T => %#v, %v", T_Byte, i, err)
-	i, err = ToJSON(T_Map)
+	i, err = ToMap(T_Map)
 	log.Info("  %#T => %#v, %v", T_Map, i, err)
-	i, err = ToJSON(T_List)
+	i, err = ToMap(T_List)
 	log.Info("  %#T => %#v, %v", T_List, i, err)
 }
 
