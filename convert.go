@@ -2,10 +2,10 @@ package types
 
 import (
 	"encoding/json"
-    "os"
-    "io/ioutil"
-    "fmt"
+	"fmt"
+	"io/ioutil"
 	"math"
+	"os"
 	"reflect"
 	"strconv"
 	"unsafe"
@@ -31,22 +31,22 @@ func StringToBytes(s string) Bytes {
 
 // file => []byte
 func FileToBytes(s string) (Bytes, error) {
-    o, err := os.Open(s)
-    if err != nil {
-        return nil, err
-    }
-    defer o.Close()
-    b, err := ioutil.ReadAll(o)
-    return b, err
+	o, err := os.Open(s)
+	if err != nil {
+		return nil, err
+	}
+	defer o.Close()
+	b, err := ioutil.ReadAll(o)
+	return b, err
 }
 
 // file => map[string]interface{}
 func FileToMap(s string) (Map, error) {
-    b, err := FileToBytes(s)
-    if err != nil {
-        return nil, err
-    }
-    return BytesToMap(b)
+	b, err := FileToBytes(s)
+	if err != nil {
+		return nil, err
+	}
+	return BytesToMap(b)
 }
 
 // string => bool, if fail return false
@@ -68,6 +68,7 @@ func StringToInt64(s string) (int64, error) {
 func StringToFloat64(s string) (float64, error) {
 	return strconv.ParseFloat(s, 64)
 }
+
 // string => map[string]interface{}
 func StringToMap(s string) (Map, error) {
 	m := Map{}
@@ -77,10 +78,11 @@ func StringToMap(s string) (Map, error) {
 
 //[]byte => map[string]interface{}
 func BytesToMap(b Bytes) (Map, error) {
-    m := Map{}
-    err := json.Unmarshal(b, &m)
-    return m, err
+	m := Map{}
+	err := json.Unmarshal(b, &m)
+	return m, err
 }
+
 // map[string]interface{} => []byte
 func MapToBytes(m Map) (Bytes, error) {
 	return json.Marshal(m)
