@@ -2,6 +2,7 @@ package types
 
 import (
 	"encoding/json"
+	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"math"
@@ -176,6 +177,16 @@ func Format(in, out interface{}) error {
 		err = json.Unmarshal(b, out)
 	}
 	return err
+}
+
+// map[string]interface{} => struct{}
+// eg: Format(map[string]interface{...}, &Struct{})
+func FormatXML(in, out interface{}) error {
+    var err error
+    if b, err := xml.Marshal(in); err == nil {
+        err = xml.Unmarshal(b, out)
+    }
+    return err
 }
 
 // float64四舍五入，并取前几位
