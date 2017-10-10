@@ -157,8 +157,44 @@ func ToFloat64(v interface{}) (float64, error) {
 		return float64(value.Uint()), nil
 	case float32, float64:
 		return value.Float(), nil
+	case bool:
+		if value.Bool() {
+			return float64(1), nil
+		} else {
+			return float64(0), nil
+		}
 	default:
 		return 0, fmt.Errorf("ToFloat64 unknow type:%#v", v)
+	}
+}
+
+// interface => bool
+func ToBool(v interface{}) (bool, error) {
+	switch value := reflect.ValueOf(v); v.(type) {
+	case string:
+		if value.String() == "" {
+			return false, nil
+		}
+		return true, nil
+	case int, int8, int16, int32, int64:
+		if value.Int() == 0 {
+			return false, nil
+		}
+		return true, nil
+	case uint, uint8, uint16, uint32, uint64:
+		if value.Uint() == 0 {
+			return false, nil
+		}
+		return true, nil
+	case float32, float64:
+		if value.Float() == 0 {
+			return false, nil
+		}
+		return true, nil
+	case bool:
+		return value.Bool(), nil
+	default:
+		return false, fmt.Errorf("ToBool unknow type:%#v", v)
 	}
 }
 
@@ -182,11 +218,11 @@ func Format(in, out interface{}) error {
 // map[string]interface{} => struct{}
 // eg: Format(map[string]interface{...}, &Struct{})
 func FormatXML(in, out interface{}) error {
-    var err error
-    if b, err := xml.Marshal(in); err == nil {
-        err = xml.Unmarshal(b, out)
-    }
-    return err
+	var err error
+	if b, err := xml.Marshal(in); err == nil {
+		err = xml.Unmarshal(b, out)
+	}
+	return err
 }
 
 // float64四舍五入，并取前几位
