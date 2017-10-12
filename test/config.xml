@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testconfig>
+    <name>Testing</name>
+    <number>100</number>
+    <list>a b</list>
+</testconfig>

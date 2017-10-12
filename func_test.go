@@ -17,7 +17,7 @@ func Test_CallFuncName(t *testing.T) {
 	log.Debug("[" + t.Name() + "]")
 	var T = &Test{1, 2}
 	a, err := T.Add(1)
-	log.Info("T.Add(1):%v,%v", a, err)
+	log.Info("  T.Add(1):%v,%v", a, err)
 	b, err := CallFuncName(T, "Add", 1)
-	log.Info("CallFuncName:%v,%v", b, err)
+	log.Info("  CallFuncName:%v,%v", b, err)
 }

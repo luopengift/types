@@ -13,9 +13,10 @@ var (
 	T_NumString  = "1"
 	T_Str        = "A"
 	T_Byte       = []byte("A")
-	T_Map        = map[string]string{"A": "b", "a": "B"}
-	T_List       = []interface{}{1, "2", 3.1415}
-	log          = logger.NewLogger("", logger.NULL, os.Stdout)
+	//	T_Map        = map[string]string{"A": "b", "a": "B"}
+	T_Map  = map[string]interface{}{"a": "a", "b": 1}
+	T_List = []interface{}{1, "2", 3.1415}
+	log    = logger.NewLogger("", logger.NULL, os.Stdout)
 )
 
 func Test_Round(t *testing.T) {
@@ -93,4 +94,21 @@ func Test_ToBytes(t *testing.T) {
 	log.Info("  %#T => %#v, %v", T_Map, i, err)
 	i, err = ToBytes(T_List)
 	log.Info("  %#T => %#v, %v", T_List, i, err)
+}
+
+type test struct {
+	A string
+	B int
+}
+
+func Test_CmpFormatANDToString(t *testing.T) {
+
+	log.Debug("[" + t.Name() + "]")
+	tt := test{}
+	err := Format(T_Map, &tt)
+	log.Info("  Format:%#T => %#v, %v", T_Map, tt, err)
+	t_map := `{"A":"a", "B":1}`
+	tm, err := ToMap(t_map)
+	log.Info("  Format:%#T => %#v, %v", t_map, tm, err)
+
 }

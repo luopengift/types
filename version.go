@@ -1,3 +1,3 @@
 package types
 
-const VERSION = "0.1.1.101017_beta"
+const VERSION = "0.2.0.101217_beta"

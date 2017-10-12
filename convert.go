@@ -2,11 +2,9 @@ package types
 
 import (
 	"encoding/json"
-	"encoding/xml"
 	"fmt"
 	"io/ioutil"
 	"math"
-	"os"
 	"reflect"
 	"strconv"
 	"unsafe"
@@ -32,13 +30,7 @@ func StringToBytes(s string) Bytes {
 
 // file => []byte
 func FileToBytes(s string) (Bytes, error) {
-	o, err := os.Open(s)
-	if err != nil {
-		return nil, err
-	}
-	defer o.Close()
-	b, err := ioutil.ReadAll(o)
-	return b, err
+	return ioutil.ReadFile(s)
 }
 
 // file => map[string]interface{}
@@ -71,17 +63,15 @@ func StringToFloat64(s string) (float64, error) {
 }
 
 // string => map[string]interface{}
-func StringToMap(s string) (Map, error) {
-	m := Map{}
-	err := json.Unmarshal(StringToBytes(s), &m)
-	return m, err
+func StringToMap(s string) (m Map, err error) {
+	err = json.Unmarshal(StringToBytes(s), &m)
+	return
 }
 
 //[]byte => map[string]interface{}
-func BytesToMap(b Bytes) (Map, error) {
-	m := Map{}
-	err := json.Unmarshal(b, &m)
-	return m, err
+func BytesToMap(b Bytes) (m Map, err error) {
+	err = json.Unmarshal(b, &m)
+	return
 }
 
 // map[string]interface{} => []byte
@@ -199,28 +189,17 @@ func ToBool(v interface{}) (bool, error) {
 }
 
 // interface => map[string]interface{}
-func ToMap(v interface{}) (Map, error) {
-	m := Map{}
-	err := Format(v, &m)
-	return m, err
+func ToMap(v interface{}) (m Map, err error) {
+	err = FormatJSON(v, &m)
+	return
 }
 
 // map[string]interface{} => struct{}
 // eg: Format(map[string]interface{...}, &Struct{})
-func Format(in, out interface{}) error {
+func Format(in Map, out interface{}) error {
 	var err error
 	if b, err := json.Marshal(in); err == nil {
-		err = json.Unmarshal(b, out)
-	}
-	return err
-}
-
-// map[string]interface{} => struct{}
-// eg: Format(map[string]interface{...}, &Struct{})
-func FormatXML(in, out interface{}) error {
-	var err error
-	if b, err := xml.Marshal(in); err == nil {
-		err = xml.Unmarshal(b, out)
+		return json.Unmarshal(b, out)
 	}
 	return err
 }
