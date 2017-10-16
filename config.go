@@ -41,7 +41,7 @@ func FormatINI(in, out interface{}) error {
 	return err
 }
 
-func ParseFile(file string, v interface{}) error {
+func ParseConfigFile(file string, v interface{}) error {
 	b, err := FileToBytes(file)
 	if err != nil {
 		return err
