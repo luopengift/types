@@ -23,7 +23,7 @@ import (
 */
 
 
-func CallMethodName(class interface{}, fun string, args ...interface{}) ([]interface{}, error) {
+func CallMethodName(class interface{}, fun string, args ...interface{}) (List, error) {
 	value := reflect.ValueOf(class)
 	method := value.MethodByName(fun)
 	if bool(method.Kind() != reflect.Func) {
@@ -36,16 +36,16 @@ func CallMethodName(class interface{}, fun string, args ...interface{}) ([]inter
 	}
 	numOut := method.Type().NumOut()
 	argsOut := method.Call(argsIn)
-	rets := make([]interface{}, numOut)
+	rets := make(List, numOut)
 	for i := 0; i < numOut; i++ {
 		rets[i] = argsOut[i].Interface()
 	}
 	return rets, nil
 }
 
-type CallFuncType = func(interface{}, ...interface{}) ([]interface{}, error)
+type CallFuncType = func(interface{}, ...interface{}) (List, error)
 
-func CallFuncName(fun interface{}, args ...interface{}) ([]interface{}, error) {
+func CallFuncName(fun interface{}, args ...interface{}) (List, error) {
     fn := reflect.ValueOf(fun)
     if fn.Kind() != reflect.Func {
         return nil, fmt.Errorf("The first argument %v is not the function", fun)
@@ -57,7 +57,7 @@ func CallFuncName(fun interface{}, args ...interface{}) ([]interface{}, error) {
     }
     numOut := fn.Type().NumOut()
     argsOut := fn.Call(argsIn)
-    rets := make([]interface{}, numOut)
+    rets := make(List, numOut)
     for i := 0; i < numOut; i++ {
         rets[i] = argsOut[i].Interface()
     }
@@ -65,11 +65,11 @@ func CallFuncName(fun interface{}, args ...interface{}) ([]interface{}, error) {
 }
 
 type Result struct {
-    result []interface{}
+    result List
     err error
 }
 
-func FuncWithTimeout(timeout int, fun interface{}, args ...interface{}) ([]interface{}, error) {
+func FuncWithTimeout(timeout int, fun interface{}, args ...interface{}) (List, error) {
     result := make(chan Result, 1)
     go func() {
         ret, err := CallFuncName(fun, args...)
