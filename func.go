@@ -2,6 +2,7 @@ package types
 
 import (
 	"fmt"
+    "time"
 	"reflect"
 )
 
@@ -18,13 +19,15 @@ import (
 
     var T = &Test{1,2}
 
-    CallFuncName(T,"Add",1) // [4 <nil>] <nil>
+    CallMethodName(T,"Add",1) // [4 <nil>] <nil>
 */
-func CallFuncName(class interface{}, fn string, args ...interface{}) ([]interface{}, error) {
+
+
+func CallMethodName(class interface{}, fun string, args ...interface{}) ([]interface{}, error) {
 	value := reflect.ValueOf(class)
-	method := value.MethodByName(fn)
+	method := value.MethodByName(fun)
 	if bool(method.Kind() != reflect.Func) {
-		return nil, fmt.Errorf("%s is %v can not callable", fn, method.Kind())
+		return nil, fmt.Errorf("%s is %v can not callable", fun, method.Kind())
 	}
 	numIn := method.Type().NumIn()
 	argsIn := make([]reflect.Value, numIn)
@@ -39,3 +42,44 @@ func CallFuncName(class interface{}, fn string, args ...interface{}) ([]interfac
 	}
 	return rets, nil
 }
+
+type CallFuncType = func(interface{}, ...interface{}) ([]interface{}, error)
+
+func CallFuncName(fun interface{}, args ...interface{}) ([]interface{}, error) {
+    fn := reflect.ValueOf(fun)
+    if fn.Kind() != reflect.Func {
+        return nil, fmt.Errorf("The first argument %v is not the function", fun)
+    }
+    numIn := fn.Type().NumIn()
+    argsIn := make([]reflect.Value, numIn)
+    for i := 0; i < numIn; i++ {
+        argsIn[i] = reflect.ValueOf(args[i])
+    }
+    numOut := fn.Type().NumOut()
+    argsOut := fn.Call(argsIn)
+    rets := make([]interface{}, numOut)
+    for i := 0; i < numOut; i++ {
+        rets[i] = argsOut[i].Interface()
+    }
+    return rets, nil
+}
+
+type Result struct {
+    result []interface{}
+    err error
+}
+
+func FuncWithTimeout(timeout int, fun interface{}, args ...interface{}) ([]interface{}, error) {
+    result := make(chan Result, 1)
+    go func() {
+        ret, err := CallFuncName(fun, args...)
+        result <- Result{ret, err}
+    }()
+    select {
+        case res := <-result:
+        return res.result, res.err
+    case <- time.After(time.Duration(timeout) * time.Second):
+        return nil, fmt.Errorf("timeout")
+    }
+}
+
