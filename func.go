@@ -2,8 +2,8 @@ package types
 
 import (
 	"fmt"
-    "time"
 	"reflect"
+	"time"
 )
 
 /*
@@ -21,7 +21,6 @@ import (
 
     CallMethodName(T,"Add",1) // [4 <nil>] <nil>
 */
-
 
 func CallMethodName(class interface{}, fun string, args ...interface{}) (List, error) {
 	value := reflect.ValueOf(class)
@@ -46,40 +45,39 @@ func CallMethodName(class interface{}, fun string, args ...interface{}) (List, e
 type CallFuncType = func(interface{}, ...interface{}) (List, error)
 
 func CallFuncName(fun interface{}, args ...interface{}) (List, error) {
-    fn := reflect.ValueOf(fun)
-    if fn.Kind() != reflect.Func {
-        return nil, fmt.Errorf("The first argument %v is not the function", fun)
-    }
-    numIn := fn.Type().NumIn()
-    argsIn := make([]reflect.Value, numIn)
-    for i := 0; i < numIn; i++ {
-        argsIn[i] = reflect.ValueOf(args[i])
-    }
-    numOut := fn.Type().NumOut()
-    argsOut := fn.Call(argsIn)
-    rets := make(List, numOut)
-    for i := 0; i < numOut; i++ {
-        rets[i] = argsOut[i].Interface()
-    }
-    return rets, nil
+	fn := reflect.ValueOf(fun)
+	if fn.Kind() != reflect.Func {
+		return nil, fmt.Errorf("The first argument %v is not the function", fun)
+	}
+	numIn := fn.Type().NumIn()
+	argsIn := make([]reflect.Value, numIn)
+	for i := 0; i < numIn; i++ {
+		argsIn[i] = reflect.ValueOf(args[i])
+	}
+	numOut := fn.Type().NumOut()
+	argsOut := fn.Call(argsIn)
+	rets := make(List, numOut)
+	for i := 0; i < numOut; i++ {
+		rets[i] = argsOut[i].Interface()
+	}
+	return rets, nil
 }
 
 type Result struct {
-    result List
-    err error
+	result List
+	err    error
 }
 
 func FuncWithTimeout(timeout int, fun interface{}, args ...interface{}) (List, error) {
-    result := make(chan Result, 1)
-    go func() {
-        ret, err := CallFuncName(fun, args...)
-        result <- Result{ret, err}
-    }()
-    select {
-        case res := <-result:
-        return res.result, res.err
-    case <- time.After(time.Duration(timeout) * time.Second):
-        return nil, fmt.Errorf("timeout")
-    }
+	result := make(chan Result, 1)
+	go func() {
+		ret, err := CallFuncName(fun, args...)
+		result <- Result{ret, err}
+	}()
+	select {
+	case res := <-result:
+		return res.result, res.err
+	case <-time.After(time.Duration(timeout) * time.Second):
+		return nil, fmt.Errorf("timeout")
+	}
 }
-

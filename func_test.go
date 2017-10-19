@@ -22,20 +22,19 @@ func Test_CallMethodName(t *testing.T) {
 	log.Info("  CallMethodName:%v,%v", b, err)
 }
 
-func add(i,j int) int {
-    return i+j
+func add(i, j int) int {
+	return i + j
 }
 
 func Test_CallFuncName(t *testing.T) {
 	log.Debug("[" + t.Name() + "]")
-    a, err := CallFuncName(add, 1, 2)
-    log.Info("  CallFuncName:%v,%v",a, err)
+	a, err := CallFuncName(add, 1, 2)
+	log.Info("  CallFuncName:%v,%v", a, err)
 }
-
 
 func Test_FuncWithTimeout(t *testing.T) {
 	log.Debug("[" + t.Name() + "]")
-    a, err := FuncWithTimeout(0, add, 1,2)
-    log.Info("  CallFuncWithTimeout:%v,%v",a, err)
+	a, err := FuncWithTimeout(0, add, 1, 2)
+	log.Info("  CallFuncWithTimeout:%v,%v", a, err)
 
 }
