@@ -61,3 +61,16 @@ func ParseConfigFile(file string, v interface{}) error {
 		return fmt.Errorf("unknown suffix: %s", suffix)
 	}
 }
+
+//将结构体in转换成yml格式的字符串, 适用于配置文件落地
+func ToYAML(in interface{}) ([]byte, error) {
+	return yaml.Marshal(in)
+}
+
+func ToJSON(in interface{}) ([]byte, error) {
+	return json.Marshal(in)
+}
+
+func ToXML(in interface{}) ([]byte, error) {
+	return xml.Marshal(in)
+}
