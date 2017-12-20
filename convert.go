@@ -196,7 +196,7 @@ func ToMap(v interface{}) (m Map, err error) {
 
 // map[string]interface{} => struct{}
 // eg: Format(map[string]interface{...}, &Struct{})
-func Format(in Map, out interface{}) error {
+func Format(in, out interface{}) error {
 	var err error
 	if b, err := json.Marshal(in); err == nil {
 		return json.Unmarshal(b, out)
