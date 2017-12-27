@@ -1,8 +1,7 @@
 package types
 
 import (
-	"github.com/luopengift/golibs/logger"
-	"os"
+	"fmt"
 	"testing"
 )
 
@@ -16,84 +15,83 @@ var (
 	//	T_Map        = map[string]string{"A": "b", "a": "B"}
 	T_Map  = map[string]interface{}{"a": "a", "b": 1}
 	T_List = []interface{}{1, "2", 3.1415}
-	log    = logger.NewLogger("", logger.NULL, os.Stdout)
 )
 
 func Test_Round(t *testing.T) {
-	log.Debug("[" + t.Name() + "]")
-	log.Info("  %#T => %#v", T_Float64Num, Round(T_Float64Num, 2))
+	fmt.Printf("[" + t.Name() + "]")
+	fmt.Printf("  %#T => %#v", T_Float64Num, Round(T_Float64Num, 2))
 }
 
 func Test_ToInt(t *testing.T) {
-	log.Debug("[" + t.Name() + "]")
+	fmt.Printf("[" + t.Name() + "]")
 	i, err := ToInt(T_IntNum)
-	log.Info("  %#T => %#v, %v", T_IntNum, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_IntNum, i, err)
 	i, err = ToInt(T_Int64Num)
-	log.Info("  %#T => %#v, %v", T_Int64Num, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Int64Num, i, err)
 	i, err = ToInt(T_Float64Num)
-	log.Info("  %#T => %#v, %v", T_Float64Num, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Float64Num, i, err)
 	i, err = ToInt(T_NumString)
-	log.Info("  %#T => %#v, %v", T_NumString, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_NumString, i, err)
 	i, err = ToInt(T_Byte)
-	log.Info("  %#T => %#v, %v", T_Byte, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Byte, i, err)
 	i, err = ToInt(T_Map)
-	log.Info("  %#T => %#v, %v", T_Map, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Map, i, err)
 	i, err = ToInt(T_List)
-	log.Info("  %#T => %#v, %v", T_List, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_List, i, err)
 }
 
 func Test_ToString(t *testing.T) {
-	log.Debug("[" + t.Name() + "]")
+	fmt.Printf("[" + t.Name() + "]")
 	i, err := ToString(T_IntNum)
-	log.Info("  %#T => %#v, %v", T_IntNum, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_IntNum, i, err)
 	i, err = ToString(T_Int64Num)
-	log.Info("  %#T => %#v, %v", T_Int64Num, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Int64Num, i, err)
 	i, err = ToString(T_Float64Num)
-	log.Info("  %#T => %#v, %v", T_Float64Num, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Float64Num, i, err)
 	i, err = ToString(T_NumString)
-	log.Info("  %#T => %#v, %v", T_NumString, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_NumString, i, err)
 	i, err = ToString(T_Byte)
-	log.Info("  %#T => %#v, %v", T_Byte, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Byte, i, err)
 	i, err = ToString(T_Map)
-	log.Info("  %#T => %#v, %v", T_Map, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Map, i, err)
 	i, err = ToString(T_List)
-	log.Info("  %#T => %#v, %v", T_List, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_List, i, err)
 }
 
 func Test_ToMap(t *testing.T) {
-	log.Debug("[" + t.Name() + "]")
+	fmt.Printf("[" + t.Name() + "]")
 	i, err := ToMap(T_IntNum)
-	log.Info("  %#T => %#v, %v", T_IntNum, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_IntNum, i, err)
 	i, err = ToMap(T_Int64Num)
-	log.Info("  %#T => %#v, %v", T_Int64Num, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Int64Num, i, err)
 	i, err = ToMap(T_Float64Num)
-	log.Info("  %#T => %#v, %v", T_Float64Num, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Float64Num, i, err)
 	i, err = ToMap(T_NumString)
-	log.Info("  %#T => %#v, %v", T_NumString, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_NumString, i, err)
 	i, err = ToMap(T_Byte)
-	log.Info("  %#T => %#v, %v", T_Byte, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Byte, i, err)
 	i, err = ToMap(T_Map)
-	log.Info("  %#T => %#v, %v", T_Map, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Map, i, err)
 	i, err = ToMap(T_List)
-	log.Info("  %#T => %#v, %v", T_List, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_List, i, err)
 }
 
 func Test_ToBytes(t *testing.T) {
-	log.Debug("[" + t.Name() + "]")
+	fmt.Printf("[" + t.Name() + "]")
 	i, err := ToBytes(T_IntNum)
-	log.Info("  %#T => %#v, %v", T_IntNum, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_IntNum, i, err)
 	i, err = ToBytes(T_Int64Num)
-	log.Info("  %#T => %#v, %v", T_Int64Num, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Int64Num, i, err)
 	i, err = ToBytes(T_Float64Num)
-	log.Info("  %#T => %#v, %v", T_Float64Num, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Float64Num, i, err)
 	i, err = ToBytes(T_NumString)
-	log.Info("  %#T => %#v, %v", T_NumString, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_NumString, i, err)
 	i, err = ToBytes(T_Byte)
-	log.Info("  %#T => %#v, %v", T_Byte, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Byte, i, err)
 	i, err = ToBytes(T_Map)
-	log.Info("  %#T => %#v, %v", T_Map, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_Map, i, err)
 	i, err = ToBytes(T_List)
-	log.Info("  %#T => %#v, %v", T_List, i, err)
+	fmt.Printf("  %#T => %#v, %v", T_List, i, err)
 }
 
 type test struct {
@@ -103,12 +101,12 @@ type test struct {
 
 func Test_CmpFormatANDToString(t *testing.T) {
 
-	log.Debug("[" + t.Name() + "]")
+	fmt.Printf("[" + t.Name() + "]")
 	tt := test{}
 	err := Format(T_Map, &tt)
-	log.Info("  Format:%#T => %#v, %v", T_Map, tt, err)
+	fmt.Printf("  Format:%#T => %#v, %v", T_Map, tt, err)
 	t_map := `{"A":"a", "B":1}`
 	tm, err := ToMap(t_map)
-	log.Info("  Format:%#T => %#v, %v", t_map, tm, err)
+	fmt.Printf("  Format:%#T => %#v, %v", t_map, tm, err)
 
 }

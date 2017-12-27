@@ -1,17 +1,18 @@
 package types
 
 import (
+	"fmt"
 	"testing"
 )
 
 func Test_HashMap(t *testing.T) {
-	log.Debug("[" + t.Name() + "]")
+	fmt.Printf("[" + t.Name() + "]")
 
 	hm := HashMap{}
 	hm["1"] = 1
-	log.Debug("  %#v", hm)
+	fmt.Printf("  %#v", hm)
 }
 
 func Test_SortMap(t *testing.T) {
-	log.Debug("[" + t.Name() + "]")
+	fmt.Printf("[" + t.Name() + "]")
 }
