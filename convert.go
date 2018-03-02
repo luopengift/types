@@ -194,6 +194,11 @@ func ToMap(v interface{}) (m Map, err error) {
 	return
 }
 
+func ToList(v interface{}) (l List, err error) {
+	err = FormatJSON(v, &l)
+	return
+}
+
 // map[string]interface{} => struct{}
 // eg: Format(map[string]interface{...}, &Struct{})
 func Format(in, out interface{}) error {
