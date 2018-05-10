@@ -12,7 +12,7 @@ import (
 func FormatJSON(in, out interface{}) error {
 	var err error
 	if b, err := ToBytes(in); err == nil {
-		return json.Unmarshal(Clean(b), out)
+		return json.Unmarshal(b, out)
 	}
 	return err
 }
