@@ -5,8 +5,8 @@ type Map = map[string]interface{}
 type HashMap Map
 
 // Implement Configer interface.
-func (hm HashMap) Parse(v interface{}) error {
-	return Format(hm, v)
+func (m HashMap) Parse(v interface{}) error {
+	return Format(m, v)
 }
 
 type SortMap struct {

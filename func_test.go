@@ -15,12 +15,12 @@ func (t *Test) Add(i int) (int, error) {
 }
 
 func Test_CallMethodName(t *testing.T) {
-	fmt.Printf("[" + t.Name() + "]")
+	fmt.Println("[" + t.Name() + "]")
 	var T = &Test{1, 2}
 	a, err := T.Add(1)
-	fmt.Printf("  T.Add(1):%v,%v", a, err)
+	fmt.Printf("  T.Add(1):%v,%v\n", a, err)
 	b, err := CallMethodName(T, "Add", 1)
-	fmt.Printf("  CallMethodName:%v,%v", b, err)
+	fmt.Printf("  CallMethodName:%v,%v\n", b, err)
 }
 
 func add(i, j int) int {
@@ -28,14 +28,14 @@ func add(i, j int) int {
 }
 
 func Test_CallFuncName(t *testing.T) {
-	fmt.Printf("[" + t.Name() + "]")
+	fmt.Println("[" + t.Name() + "]")
 	a, err := CallFuncName(add, 1, 2)
-	fmt.Printf("  CallFuncName:%v,%v", a, err)
+	fmt.Printf("  CallFuncName:%v, %v\n", a, err)
 }
 
 func Test_FuncWithTimeout(t *testing.T) {
-	fmt.Printf("[" + t.Name() + "]")
+	fmt.Println("[" + t.Name() + "]")
 	a, err := FuncWithTimeout(0, add, 1, 2)
-	fmt.Printf("  CallFuncWithTimeout:%v,%v", a, err)
+	fmt.Printf("  CallFuncWithTimeout:%v, %v\n", a, err)
 
 }

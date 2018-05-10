@@ -1,14 +1,14 @@
 package types
 
 import (
-	"testing"
 	"fmt"
+	"testing"
 )
 
 func Test_List(t *testing.T) {
-	fmt.Printf("[" + t.Name() + "]")
+	fmt.Println("[" + t.Name() + "]")
 	list := List{1, 2, 3, "4"}
-	fmt.Printf("  %v %v", list, list.String())
-	fmt.Printf("  1 contains %v", list.Contains(1))
-	fmt.Printf("  4 contains %v", list.Contains(4))
+	fmt.Printf("  %v %v\n", list, list.String())
+	fmt.Printf("  1 contains %v\n", list.Contains(1))
+	fmt.Printf("  4 contains %v\n", list.Contains(4))
 }
