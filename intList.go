@@ -1,23 +1,23 @@
 package types
 
-type List []interface{}
+type IntList []int
 
-func (list *List) Len() int {
+func (list *IntList) Len() int {
 	return len(*list)
 }
 // L.append(object) -- append object to end
-func (list *List) Append(v interface{}) {
+func (list *IntList) Append(v int) {
 	*list = append(*list, v)
 }
 
-func (list *List) Insert(idx int, v interface{}) {
+func (list *IntList) Insert(idx, v int) {
 	rest := (*list)[idx:]
 	*list = append((*list)[0:idx], v)
 	*list = append(*list, rest...)
 }
 
 // 指定下标，删除指定的元素，如果删除一个不存在的元素会报错，默认Pop()删除最后一个元素
-func (list *List) Pop(idx ...int) interface{} {
+func (list *IntList) Pop(idx ...int) int {
 	var index int
 	if len(idx) == 0 {
 		index = list.Len() - 1
@@ -30,7 +30,7 @@ func (list *List) Pop(idx ...int) interface{} {
 }
 
 // 根据value删除元素
-func (list *List) Remove(v interface{}) {
+func (list *IntList) Remove(v int) {
 	for idx, value := range *list {
 		if value == v {
 			*list = append((*list)[:idx], (*list)[idx+1:]...)
@@ -38,7 +38,7 @@ func (list *List) Remove(v interface{}) {
 	}
 }
 
-func (list *List) Index(v interface{}) int {
+func (list *IntList) Index(v int) int {
 	for idx, value := range *list {
 		if value == v {
 			return idx
@@ -48,7 +48,7 @@ func (list *List) Index(v interface{}) int {
 }
 
 // L.count(value) -> integer -- return number of occurrences of value
-func (list *List) Count(v interface{}) int {
+func (list *IntList) Count(v int) int {
 	cnt := 0
 	for _, value := range *list {
 		if value == v {
@@ -58,7 +58,8 @@ func (list *List) Count(v interface{}) int {
 	return cnt
 }
 
-func (list *List) Contains(v interface{}) bool {
+func (list *IntList) Contains(v int) bool {
 	return list.Count(v) != 0
 }
+
 

@@ -24,3 +24,11 @@ func TimeFormat(str string) string {
 	}
 	return str
 }
+
+type Time struct {
+	t time.Time
+}
+
+func (t *Time) MarshalJSON() ([]byte, error) {
+	return nil, nil
+}

@@ -199,6 +199,10 @@ func ToList(v interface{}) (l List, err error) {
 	return
 }
 
+type Formatter interface {
+	Format(in, out interface{}) error
+}
+
 // map[string]interface{} => struct{}
 // eg: Format(map[string]interface{...}, &Struct{})
 func Format(in, out interface{}) error {

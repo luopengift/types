@@ -11,7 +11,7 @@ func Test_HashMap(t *testing.T) {
 	hm := HashMap{}
 	hm["1"] = 1
 	fmt.Printf("  %#v\n", hm)
-	fmt.Printf("  %T\n", hm.Get("2"))
+	//fmt.Printf("  %T\n", hm.Get("2"))
 }
 
 func Test_SortMap(t *testing.T) {
