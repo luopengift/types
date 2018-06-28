@@ -15,10 +15,13 @@ var iface = reflect.TypeOf(new(Validor)).Elem()
 func Validate(v interface{}) error {
 	rt := reflect.TypeOf(v)
 	rv := reflect.ValueOf(v)
-	//if rt.Implements(iface) {
-	//	res := rv.MethodByName("Valid").Call(nil)
-	//	return res[0].Interface().(error)
-	//}
+	if rt.Implements(iface) {
+		res := rv.MethodByName("Valid").Call(nil)
+		if ok := res[0].IsNil(); ok {
+			return nil
+		}
+		return res[0].Interface().(error)
+	}
 	return valid(rv.Elem(), rt.Elem())
 
 }
