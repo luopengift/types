@@ -67,6 +67,8 @@ func Init(valueField reflect.Value, structField reflect.StructField, validItem s
 		return MaxInit(valueField, structField, value)
 	case "min":
 		return MinInit(valueField, structField, value)
+	case "regexp":
+		return RegexpInit(valueField, structField, value)
 	default:
 		return nil, fmt.Errorf("valid key<%s> is not support!", v[0])
 	}
