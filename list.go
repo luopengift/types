@@ -5,6 +5,7 @@ type List []interface{}
 func (list *List) Len() int {
 	return len(*list)
 }
+
 // L.append(object) -- append object to end
 func (list *List) Append(v interface{}) {
 	*list = append(*list, v)
@@ -21,7 +22,7 @@ func (list *List) Pop(idx ...int) interface{} {
 	var index int
 	if len(idx) == 0 {
 		index = list.Len() - 1
-	}else{
+	} else {
 		index = idx[0]
 	}
 	pop := (*list)[index]
@@ -61,4 +62,3 @@ func (list *List) Count(v interface{}) int {
 func (list *List) Contains(v interface{}) bool {
 	return list.Count(v) != 0
 }
-

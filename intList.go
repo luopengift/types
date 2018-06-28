@@ -5,6 +5,7 @@ type IntList []int
 func (list *IntList) Len() int {
 	return len(*list)
 }
+
 // L.append(object) -- append object to end
 func (list *IntList) Append(v int) {
 	*list = append(*list, v)
@@ -21,7 +22,7 @@ func (list *IntList) Pop(idx ...int) int {
 	var index int
 	if len(idx) == 0 {
 		index = list.Len() - 1
-	}else{
+	} else {
 		index = idx[0]
 	}
 	pop := (*list)[index]
@@ -61,5 +62,3 @@ func (list *IntList) Count(v int) int {
 func (list *IntList) Contains(v int) bool {
 	return list.Count(v) != 0
 }
-
-
