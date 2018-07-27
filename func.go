@@ -6,22 +6,17 @@ import (
 	"time"
 )
 
-/*
-  Example:
-    type Test struct {
-        i   int
-        j   int
-    }
-
-    func (t *Test) Add(i int) (int,error) {
-        return t.i+t.j+i, nil
-    }
-
-    var T = &Test{1,2}
-
-    CallMethodName(T,"Add",1) // [4 <nil>] <nil>
-*/
-
+// CallMethodName Call method by name
+//   Example:
+//     type Test struct {
+//         i   int
+//         j   int
+//     }
+//     func (t *Test) Add(i int) (int,error) {
+//         return t.i+t.j+i, nil
+//     }
+//     var T = &Test{1,2}
+//     CallMethodName(T,"Add",1) // [4 <nil>] <nil>
 func CallMethodName(class interface{}, fun string, args ...interface{}) (List, error) {
 	value := reflect.ValueOf(class)
 	method := value.MethodByName(fun)
@@ -42,8 +37,10 @@ func CallMethodName(class interface{}, fun string, args ...interface{}) (List, e
 	return rets, nil
 }
 
+// CallFuncType call func type
 type CallFuncType = func(interface{}, ...interface{}) (List, error)
 
+// CallFuncName call func name
 func CallFuncName(fun interface{}, args ...interface{}) (List, error) {
 	fn := reflect.ValueOf(fun)
 	if fn.Kind() != reflect.Func {
@@ -63,11 +60,13 @@ func CallFuncName(fun interface{}, args ...interface{}) (List, error) {
 	return rets, nil
 }
 
+// Result result
 type Result struct {
 	result List
 	err    error
 }
 
+// FuncWithTimeout func timeout
 func FuncWithTimeout(timeout int, fun interface{}, args ...interface{}) (List, error) {
 	result := make(chan Result, 1)
 	go func() {

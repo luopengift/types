@@ -2,9 +2,10 @@ package types
 
 import "bytes"
 
+// Bytes equal []byte
 type Bytes = []byte
 
-// 清理#注释
+// Clean 清理#注释
 func Clean(b Bytes) Bytes {
 	ret := [][]byte{}
 	for _, dat := range bytes.Split(b, []byte("\n")) {

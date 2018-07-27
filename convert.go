@@ -10,14 +10,14 @@ import (
 	"unsafe"
 )
 
-// byte => string
+// BytesToString byte => string
 // 直接转换底层指针，两者指向的相同的内存，改一个另外一个也会变。
 // 效率是string(Bytes{})的百倍以上，且转换量越大效率优势越明显。
 func BytesToString(b Bytes) string {
 	return *(*string)(unsafe.Pointer(&b))
 }
 
-// string => Bytes
+// StringToBytes string => Bytes
 // 直接转换底层指针，两者指向的相同的内存，改一个另外一个也会变。
 // 效率是string(Bytes{})的百倍以上，且转换量越大效率优势越明显。
 // 转换之后若没做其他操作直接改变里面的字符，则程序会崩溃。
@@ -28,12 +28,12 @@ func StringToBytes(s string) Bytes {
 	return *(*Bytes)(unsafe.Pointer(&h))
 }
 
-// file => []byte
+// FileToBytes file => []byte
 func FileToBytes(s string) (Bytes, error) {
 	return ioutil.ReadFile(s)
 }
 
-// file => map[string]interface{}
+// FileToMap file => map[string]interface{}
 func FileToMap(s string) (Map, error) {
 	b, err := FileToBytes(s)
 	if err != nil {
@@ -42,44 +42,44 @@ func FileToMap(s string) (Map, error) {
 	return BytesToMap(b)
 }
 
-// string => bool, if fail return false
+// StringToBoolean string => bool, if fail return false
 func StringToBoolean(s string) (bool, error) {
 	return strconv.ParseBool(s)
 }
 
-//string => int, if fail return 0
+//StringToInt string => int, if fail return 0
 func StringToInt(s string) (int, error) {
 	return strconv.Atoi(s)
 }
 
-//string => int64, if fail return 0
+//StringToInt64 string => int64, if fail return 0
 func StringToInt64(s string) (int64, error) {
 	return strconv.ParseInt(s, 10, 64)
 }
 
-// string => float64, if fail return 0
+// StringToFloat64 string => float64, if fail return 0
 func StringToFloat64(s string) (float64, error) {
 	return strconv.ParseFloat(s, 64)
 }
 
-// string => map[string]interface{}
+// StringToMap string => map[string]interface{}
 func StringToMap(s string) (m Map, err error) {
 	err = json.Unmarshal(StringToBytes(s), &m)
 	return
 }
 
-//[]byte => map[string]interface{}
+// BytesToMap []byte => map[string]interface{}
 func BytesToMap(b Bytes) (m Map, err error) {
 	err = json.Unmarshal(b, &m)
 	return
 }
 
-// map[string]interface{} => []byte
+// MapToBytes map[string]interface{} => []byte
 func MapToBytes(m Map) (Bytes, error) {
 	return json.Marshal(m)
 }
 
-// interface => []byte
+// ToBytes interface => []byte
 func ToBytes(v interface{}) (Bytes, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
@@ -91,7 +91,7 @@ func ToBytes(v interface{}) (Bytes, error) {
 	}
 }
 
-// interface => string
+// ToString interface => string
 func ToString(v interface{}) (string, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
@@ -104,7 +104,7 @@ func ToString(v interface{}) (string, error) {
 	}
 }
 
-// interface => int
+// ToInt interface => int
 func ToInt(v interface{}) (int, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
@@ -120,7 +120,7 @@ func ToInt(v interface{}) (int, error) {
 	}
 }
 
-// interface => int64
+// ToInt64 interface => int64
 func ToInt64(v interface{}) (int64, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
@@ -136,7 +136,7 @@ func ToInt64(v interface{}) (int64, error) {
 	}
 }
 
-// interface => float64
+// ToFloat64 interface => float64
 func ToFloat64(v interface{}) (float64, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
@@ -150,15 +150,15 @@ func ToFloat64(v interface{}) (float64, error) {
 	case bool:
 		if value.Bool() {
 			return float64(1), nil
-		} else {
-			return float64(0), nil
 		}
+		return float64(0), nil
+
 	default:
 		return 0, fmt.Errorf("ToFloat64 unknow type:%#v", v)
 	}
 }
 
-// interface => bool
+// ToBool interface => bool
 func ToBool(v interface{}) (bool, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
@@ -188,21 +188,24 @@ func ToBool(v interface{}) (bool, error) {
 	}
 }
 
-// interface => map[string]interface{}
+// ToMap interface => map[string]interface{}
 func ToMap(v interface{}) (m Map, err error) {
 	err = FormatJSON(v, &m)
 	return
 }
 
+// ToList interface => []interface
 func ToList(v interface{}) (l List, err error) {
 	err = FormatJSON(v, &l)
 	return
 }
 
+// Formatter interface
 type Formatter interface {
 	Format(in, out interface{}) error
 }
 
+// Format implement Formatter interface
 // map[string]interface{} => struct{}
 // eg: Format(map[string]interface{...}, &Struct{})
 func Format(in, out interface{}) error {
@@ -213,8 +216,8 @@ func Format(in, out interface{}) error {
 	return err
 }
 
-// float64四舍五入，并取前几位
+// Round float64四舍五入，并取前几位
 func Round(f float64, n int) float64 {
-	pow10_n := math.Pow10(n)
-	return math.Trunc((f+0.5/pow10_n)*pow10_n) / pow10_n
+	pow10 := math.Pow10(n)
+	return math.Trunc((f+0.5/pow10)*pow10) / pow10
 }

@@ -4,11 +4,13 @@ import (
 	"sync"
 )
 
+// Set set
 type Set struct {
 	s   map[interface{}]bool
 	mux *sync.RWMutex
 }
 
+// NewSet new set
 func NewSet(e ...interface{}) *Set {
 	set := Set{
 		s:   make(map[interface{}]bool),
@@ -18,59 +20,61 @@ func NewSet(e ...interface{}) *Set {
 	return &set
 }
 
-// 添加一个元素
-func (self *Set) Add(e ...interface{}) *Set {
-	self.mux.Lock()
+// Add 添加一个元素
+func (s *Set) Add(e ...interface{}) *Set {
+	s.mux.Lock()
 	for _, v := range e {
-		self.s[v] = true
+		s.s[v] = true
 	}
-	self.mux.Unlock()
-	return self
+	s.mux.Unlock()
+	return s
 }
 
-// 删除一个元素
-func (self *Set) Remove(v interface{}) *Set {
-	self.mux.Lock()
-	delete(self.s, v)
-	self.mux.Unlock()
-	return self
+// Remove 删除一个元素
+func (s *Set) Remove(v interface{}) *Set {
+	s.mux.Lock()
+	delete(s.s, v)
+	s.mux.Unlock()
+	return s
 }
 
-// 清空所有元素
-func (self *Set) Clear() error {
-	self.mux.Lock()
-	for k, _ := range self.s {
-		self.Remove(k)
+// Clear 清空所有元素
+func (s *Set) Clear() error {
+	s.mux.Lock()
+	for k := range s.s {
+		s.Remove(k)
 	}
-	self.mux.Unlock()
+	s.mux.Unlock()
 	return nil
 }
 
-func (self *Set) Contains(v interface{}) bool {
-	self.mux.RLock()
-	defer self.mux.RUnlock()
-	return self.s[v]
+// Contains contains
+func (s *Set) Contains(v interface{}) bool {
+	s.mux.RLock()
+	defer s.mux.RUnlock()
+	return s.s[v]
 }
 
-// 获取元素集合
-func (self *Set) Elements() []interface{} {
+// Elements 获取元素集合
+func (s *Set) Elements() []interface{} {
 	elements := []interface{}{}
-	for k := range self.s {
+	for k := range s.s {
 		elements = append(elements, k)
 	}
 	return elements
 }
 
-func (self *Set) Len() int {
-	return len(self.s)
+// Len len
+func (s *Set) Len() int {
+	return len(s.s)
 }
 
-// 是否和其他set一致
-func (self *Set) Same(o *Set) bool {
-	if self.Len() != o.Len() {
+// Same 是否和其他set一致
+func (s *Set) Same(o *Set) bool {
+	if s.Len() != o.Len() {
 		return false
 	}
-	for k := range self.s {
+	for k := range s.s {
 		if !o.Contains(k) {
 			return false
 		}
@@ -78,19 +82,19 @@ func (self *Set) Same(o *Set) bool {
 	return true
 }
 
-// 并集
-func (self *Set) Union(o *Set) *Set {
-	union := NewSet(self.Elements()...) //新创建一个集合,以免影响原集合
+// Union 并集
+func (s *Set) Union(o *Set) *Set {
+	union := NewSet(s.Elements()...) //新创建一个集合,以免影响原集合
 	for _, v := range o.Elements() {
 		union.Add(v)
 	}
 	return union
 }
 
-// 交集
-func (self *Set) Inter(o *Set) *Set {
+// Inter 交集
+func (s *Set) Inter(o *Set) *Set {
 	inter := NewSet()
-	for _, v := range self.Elements() {
+	for _, v := range s.Elements() {
 		if o.Contains(v) {
 			inter.Add(v)
 		}
@@ -98,10 +102,10 @@ func (self *Set) Inter(o *Set) *Set {
 	return inter
 }
 
-// 差集
-func (self *Set) Diff(o *Set) *Set {
+// Diff 差集
+func (s *Set) Diff(o *Set) *Set {
 	diff := NewSet()
-	for _, v := range self.Elements() {
+	for _, v := range s.Elements() {
 		if !o.Contains(v) {
 			diff.Add(v)
 		}

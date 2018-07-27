@@ -1,11 +1,18 @@
 package types
 
 const (
-	B  = 1         //byte
-	KB = 1024 * B  //Kibibyte 2^10B
-	MB = 1024 * KB //Mebibyte 2^20B
-	GB = 1024 * MB //Gigabyte 2^30B
-	TB = 1024 * GB //Terabyte 2^40B
-	PB = 1024 * TB //Petabyte 2^50B
-	EB = 1024 * PB //Exabyte  2^60B
+	// B byte 8bit
+	B = 1
+	// KB Kibibyte 2^10B
+	KB = 1024 * B
+	// MB Mebibyte 2^20B
+	MB = 1024 * KB
+	// GB Gigabyte 2^30B
+	GB = 1024 * MB
+	// TB Terabyte 2^40B
+	TB = 1024 * GB
+	// PB Petabyte 2^50B
+	PB = 1024 * TB
+	// EB Exabyte  2^60B
+	EB = 1024 * PB
 )
