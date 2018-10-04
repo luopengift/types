@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"encoding/xml"
 	"fmt"
+	"os"
 	"path"
+	"strings"
 
 	"gopkg.in/gcfg.v1"
 	"gopkg.in/yaml.v2"
@@ -52,7 +54,8 @@ func ParseConfigFile(file string, v interface{}) error {
 	if err != nil {
 		return err
 	}
-	switch suffix := path.Ext(file); suffix {
+	filepath := strings.Replace(file, "~", os.Getenv("HOME"), -1)
+	switch suffix := path.Ext(filepath); suffix {
 	case ".json":
 		return FormatJSON(b, v)
 	case ".xml":
