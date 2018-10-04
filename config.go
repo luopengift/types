@@ -50,11 +50,11 @@ func FormatINI(in, out interface{}) error {
 
 // ParseConfigFile parse config file
 func ParseConfigFile(file string, v interface{}) error {
-	b, err := FileToBytes(file)
+	filepath := strings.Replace(file, "~", os.Getenv("HOME"), -1)
+	b, err := FileToBytes(filepath)
 	if err != nil {
 		return err
 	}
-	filepath := strings.Replace(file, "~", os.Getenv("HOME"), -1)
 	switch suffix := path.Ext(filepath); suffix {
 	case ".json":
 		return FormatJSON(b, v)
