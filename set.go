@@ -111,7 +111,7 @@ func (s UnsafeSet) Diff(o Setter) Setter {
 
 // NewUnsafeSet unsafe set
 func NewUnsafeSet(e ...interface{}) Setter {
-	set := new(UnsafeSet)
+	set := make(UnsafeSet)
 	set.Add(e...)
 	return set
 }
