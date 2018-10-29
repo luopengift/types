@@ -44,8 +44,3 @@ func Test_INI(t *testing.T) {
 	err := ParseConfigFile(&config, "test/config.ini")
 	fmt.Println("INI:", err, config)
 }
-
-// Configer config interface.
-type Configer interface {
-	Parse(v interface{}) error
-}

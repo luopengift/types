@@ -95,3 +95,8 @@ func ToJSON(in interface{}) ([]byte, error) {
 func ToXML(in interface{}) ([]byte, error) {
 	return xml.Marshal(in)
 }
+
+// Configer config interface.
+type Configer interface {
+	Parse(v interface{}) error
+}
