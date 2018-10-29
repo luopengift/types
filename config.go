@@ -49,14 +49,14 @@ func FormatINI(in, out interface{}) error {
 }
 
 // ParseConfigFile parse config file
-func ParseConfigFile(file string, v interface{}) error {
+func ParseConfigFile(v interface{}, file string) error {
 	filepath := strings.Replace(file, "~", os.Getenv("HOME"), -1)
 	b, err := FileToBytes(filepath)
 	if err != nil {
 		return err
 	}
 	switch suffix := path.Ext(filepath); suffix {
-	case ".json":
+	case ".json", ".js":
 		return FormatJSON(b, v)
 	case ".xml":
 		return FormatXML(b, v)
@@ -69,6 +69,16 @@ func ParseConfigFile(file string, v interface{}) error {
 	default:
 		return fmt.Errorf("unknown suffix: %s", suffix)
 	}
+}
+
+// ParseConfigFiles parse config files
+func ParseConfigFiles(v interface{}, files ...string) error {
+	for _, file := range files {
+		if err := ParseConfigFile(v, file); err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
 //ToYAML 将结构体in转换成yml格式的字符串, 适用于配置文件落地

@@ -23,24 +23,29 @@ type TestConfigINI struct {
 
 func Test_JSON(t *testing.T) {
 	config := TestConfig{}
-	err := ParseConfigFile("test/config.json", &config)
+	err := ParseConfigFile(&config, "test/config.json")
 	fmt.Println("JSON:", err, config)
 }
 
 func Test_YAML(t *testing.T) {
 	config := TestConfig{}
-	err := ParseConfigFile("test/config.yaml", &config)
+	err := ParseConfigFile(&config, "test/config.yaml")
 	fmt.Println("YAML:", err, config)
 }
 
 func Test_XML(t *testing.T) {
 	config := TestConfig{}
-	err := ParseConfigFile("test/config.xml", &config)
+	err := ParseConfigFile(&config, "test/config.xml")
 	fmt.Println("XML:", err, config)
 }
 
 func Test_INI(t *testing.T) {
 	config := TestConfigINI{}
-	err := ParseConfigFile("test/config.ini", &config)
+	err := ParseConfigFile(&config, "test/config.ini")
 	fmt.Println("INI:", err, config)
+}
+
+// Configer config interface.
+type Configer interface {
+	Parse(v interface{}) error
 }
