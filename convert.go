@@ -42,8 +42,11 @@ func FileToMap(s string) (Map, error) {
 	return BytesToMap(b)
 }
 
-// StringToBoolean string => bool, if fail return false
-func StringToBoolean(s string) (bool, error) {
+// StringToBool string => bool, if fail return false
+func StringToBool(s string) (bool, error) {
+	if s == "" {
+		return false, nil
+	}
 	return strconv.ParseBool(s)
 }
 
@@ -162,10 +165,7 @@ func ToFloat64(v interface{}) (float64, error) {
 func ToBool(v interface{}) (bool, error) {
 	switch value := reflect.ValueOf(v); v.(type) {
 	case string:
-		if value.String() == "" {
-			return false, nil
-		}
-		return true, nil
+		return StringToBool(value.String())
 	case int, int8, int16, int32, int64:
 		if value.Int() == 0 {
 			return false, nil

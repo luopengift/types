@@ -8,6 +8,14 @@ func (i Int64) Int() int {
 	return int(i)
 }
 
+// Bool convert to bool
+func (i Int64) Bool() bool {
+	if i.Int64() == 0 {
+		return false
+	}
+	return true
+}
+
 // Int64 to int64
 func (i Int64) Int64() int64 {
 	return int64(i)
