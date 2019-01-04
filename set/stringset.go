@@ -1,4 +1,4 @@
-package types
+package set
 
 // StringSet unsafe set
 type StringSet map[string]bool
