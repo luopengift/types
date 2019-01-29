@@ -1,6 +1,7 @@
 package types
 
 import (
+	"fmt"
 	"strings"
 	"time"
 )
@@ -52,4 +53,50 @@ func (t Time) MarshalJSON() ([]byte, error) {
 
 func (t Time) String() string {
 	return time.Time(t).Format("2006-01-02 15:04:05")
+}
+
+// Int64 int64
+func (t Time) Int64() int64 {
+	return time.Time(t).UnixNano()
+}
+
+// Float64 flot64
+func (t Time) Float64() float64 {
+	return float64(time.Time(t).UnixNano())
+}
+
+// Int int
+func (t Time) Int() int {
+	return int(time.Time(t).UnixNano())
+}
+
+// time duration int64
+const (
+	Second = int64(time.Second)
+	Minute = int64(time.Minute)
+	Hour   = int64(time.Hour)
+	Day    = Hour * 24
+	Month  = Day * 30
+	Year   = Month * 12
+)
+
+// DurationHuman duration human
+func DurationHuman(d time.Duration) string {
+	duration := int64(d)
+	var end, ret string
+	var timePoints = []int64{Year, Month, Day, Hour, Minute, Second}
+	var zhUnit = []string{"年", "个月", "天", "小时", "分钟", "秒"}
+	if duration < 0 {
+		end = "之后"
+		duration = duration * -1
+	} else {
+		end = "以前"
+	}
+	for i, point := range timePoints {
+		if duration > point {
+			ret += fmt.Sprintf("%d%s", duration/point, zhUnit[i])
+			duration = duration % point
+		}
+	}
+	return ret + end
 }

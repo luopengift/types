@@ -118,6 +118,8 @@ func ToInt(v interface{}) (int, error) {
 		return int(value.Uint()), nil
 	case float32, float64:
 		return int(value.Float()), nil
+	case []byte:
+		return StringToInt(string(value.Bytes()))
 	default:
 		return 0, fmt.Errorf("ToInt Unknow type:%#v", v)
 	}
@@ -209,11 +211,11 @@ type Formatter interface {
 // map[string]interface{} => struct{}
 // eg: Format(map[string]interface{...}, &Struct{})
 func Format(in, out interface{}) error {
-	var err error
-	if b, err := json.Marshal(in); err == nil {
-		return json.Unmarshal(b, out)
+	b, err := json.Marshal(in)
+	if err != nil {
+		return err
 	}
-	return err
+	return json.Unmarshal(b, out)
 }
 
 // Round float64四舍五入，并取前几位
